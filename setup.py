@@ -16,6 +16,7 @@
 from distutils.core import setup
 import os
 import re
+from setuptools import setup
 
 def read_file(path):
     with open(os.path.join(os.path.dirname(__file__), path)) as fp:
@@ -42,4 +43,7 @@ setup(
     license='GNU GPLv2.htm',
     description='Wrapper for smartctl (smartmontools)',
     long_description=open('README.txt').read(),
+    install_requires=[
+      'utils',
+    ],
 )

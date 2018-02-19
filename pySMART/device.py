@@ -125,7 +125,8 @@ class Device(object):
         elif self.interface is None:
             _grep = 'find' if OS == 'Windows' else 'grep'
             cmd = Popen('smartctl --scan-open | {0} "{1}"'.format(
-                _grep, self.name), shell=True, stdout=PIPE, stderr=PIPE)
+                _grep, self.name), shell=True, stdout=PIPE, stderr=PIPE,
+                universal_newlines=True)
             _stdout, _stderr = cmd.communicate()
             if _stdout != '':
                 self.interface = _stdout.split(' ')[2]
@@ -196,7 +197,7 @@ class Device(object):
             # Look for a SATA PHY to detect SAT and SATA
             cmd = Popen('smartctl -d {0} -l sataphy /dev/{1}'.format(
                 smartctl_type[test], self.name), shell=True,
-                        stdout=PIPE, stderr=PIPE)
+                        stdout=PIPE, stderr=PIPE, universal_newlines=True)
             _stdout, _stderr = cmd.communicate()
             if 'GP Log 0x11' in _stdout.split('\n')[3]:
                 self.interface = test
@@ -204,7 +205,8 @@ class Device(object):
         # check for a SAS PHY
         if self.interface == 'scsi':
             cmd = Popen('smartctl -d scsi -l sasphy /dev/{0}'.format(
-                self.name), shell=True, stdout=PIPE, stderr=PIPE)
+                self.name), shell=True, stdout=PIPE, stderr=PIPE,
+                universal_newlines=True)
             _stdout, _stderr = cmd.communicate()
             if 'SAS SSP' in _stdout.split('\n')[4]:
                 self.interface = 'sas'
@@ -212,7 +214,8 @@ class Device(object):
             # For these, see if smartmontools reports a transport protocol.
             else:
                 cmd = Popen('smartctl -d scsi -a /dev/{0}'.format(
-                    self.name), shell=True, stdout=PIPE, stderr=PIPE)
+                    self.name), shell=True, stdout=PIPE, stderr=PIPE,
+                    universal_newlines=True)
                 _stdout, _stderr = cmd.communicate()
                 for line in _stdout.split('\n'):
                     if 'Transport protocol' in line and 'SAS' in line:
@@ -396,7 +399,8 @@ class Device(object):
                         "devices.", None)
             cmd = Popen('smartctl -d {0} -t {1} /dev/{2}'.format(
                 smartctl_type[self.interface], test_type, self.name),
-                        shell=True, stdout=PIPE, stderr=PIPE)
+                        shell=True, stdout=PIPE, stderr=PIPE,
+                        universal_newlines=True)
             _stdout, _stderr = cmd.communicate()
             _success = False
             _running = False
@@ -430,7 +434,7 @@ class Device(object):
         """
         cmd = Popen('smartctl -d {0} -a /dev/{1}'.format(
             smartctl_type[self.interface], self.name), shell=True,
-                    stdout=PIPE, stderr=PIPE)
+                    stdout=PIPE, stderr=PIPE, universal_newlines=True)
         _stdout, _stderr = cmd.communicate()
         parse_self_tests = False
         parse_ascq = False
@@ -608,7 +612,7 @@ class Device(object):
             if self.diags['Power_On_Hours'] == '-':
                 cmd = Popen('smartctl -d scsi -l background /dev/{1}'.format(
                     smartctl_type[self.interface], self.name), shell=True,
-                            stdout=PIPE, stderr=PIPE)
+                            stdout=PIPE, stderr=PIPE, universal_newlines=True)
                 _stdout, _stderr = cmd.communicate()
                 for line in _stdout.split('\n'):
                     if 'power on time' in line:

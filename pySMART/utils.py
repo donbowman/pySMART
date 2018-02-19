@@ -101,7 +101,7 @@ def pd_to_sd(pd):
 def rescan_device_busses():
     """Force a rescan of internal storage busses under Windows"""
     cmd = Popen('echo "rescan" | diskpart', shell=True,
-                stdout=PIPE, stderr=PIPE)
+                stdout=PIPE, stderr=PIPE, universal_newlines=True)
     _stdout, _stderr = cmd.communicate()
 
 def _warning_on_one_line(message, category, filename, lineno, file=None,
@@ -111,7 +111,7 @@ def _warning_on_one_line(message, category, filename, lineno, file=None,
 warnings.formatwarning = _warning_on_one_line
 
 # Verify smartctl is on the system path and meets the minimum required version
-cmd = Popen('smartctl --version', shell=True, stdout=PIPE, stderr=PIPE)
+cmd = Popen('smartctl --version', shell=True, stdout=PIPE, stderr=PIPE, universal_newlines=True)
 _stdout, _stderr = cmd.communicate()
 if _stdout == '':
     raise Exception(

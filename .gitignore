@@ -1,0 +1,6 @@
+*.pyc
+build/
+dist/
+pySMART.egg-info/
+pySMART/__pycache__/
+
