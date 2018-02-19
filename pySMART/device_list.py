@@ -92,7 +92,7 @@ class DeviceList(object):
         if OS == 'Windows':
             rescan_device_busses()
         cmd = Popen('smartctl --scan-open', shell=True,
-                    stdout=PIPE, stderr=PIPE)
+                    stdout=PIPE, stderr=PIPE, universal_newlines=True)
         _stdout, _stderr = cmd.communicate()
         for line in _stdout.split('\n'):
             if not ('failed:' in line or line == ''):
