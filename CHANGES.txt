@@ -1,0 +1,24 @@
+0.2 - 2015/01/06
+--------------------------------------------------------------------------------
+[BUG FIXES]
+    * Now properly detects whether a SMART self-test was initiated when
+      requested on SAS/SCSI devices.
+    * Now properly detects when a SMART self-test has completed on
+      SAS/SCSI devices.
+    * The values of diagnostic attributes 'Load_Cycle_Pct_Left' and
+      'Start_Stop_Pct_Left' are now set to '-' if the manufacturer's
+      specification is '0' (unlimited - typical of SSDs).
+    * Diagnostic attribute 'Load_Cycle_Pct_Left' now obtains the intended
+      default value '-' when not supported by a device.
+[ENHANCEMENTS]
+    * Disambiguation of SAS from SCSI is more robust for older devices which
+      do not support the SAS PHY log command.
+    * Extraction of power-on time from SAS/SCSI devices is more robust.
+    * The calculated values of diagnostic attributes 'Load_Cycle_Pct_Left' and
+      'Start_Stop_Pct_Left' now include the '%' sign.
+[ADMINISTRATIVE]
+    * Corrected the package manifest to include the GPLv2 license file.
+
+0.1 - 2014/12/24
+--------------------------------------------------------------------------------
+    * Initial release.
